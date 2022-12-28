@@ -1,5 +1,6 @@
 import { SalesStore } from "../store.js"
 import { SaleData } from "../types.js"
+import { v4 as uuidv4 } from "uuid";
 
 export class SalesController {
   static async index(req, res) {
