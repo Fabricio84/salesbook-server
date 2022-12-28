@@ -18,7 +18,7 @@ export const SaleItem = Record({
 
 export const SaleData = Record({
   date: String,
-  customerID: String,
+  customerId: String,
   itens: Array(SaleItem),
   priceTotal: Number,
   discounts: Number,
