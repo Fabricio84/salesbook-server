@@ -8,16 +8,19 @@ export const Product = Record({
 });
 
 export const Payment = Record({
-    number: Number,
     date: String,
     price: Number
 });
 
+export const SaleItem = Record({
+  productId: String
+});
+
 export const SaleData = Record({
   date: String,
-  CustomerID: String,
-  Products: Array(Product),
-  PriceTotal: Number,
+  customerID: String,
+  itens: Array(SaleItem),
+  priceTotal: Number,
   discounts: Number,
-  Payments: Array(Payment)
+  payments: Array(String)
 });
