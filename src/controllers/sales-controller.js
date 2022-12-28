@@ -1,4 +1,5 @@
 import { SalesStore } from "../store.js"
+import { SaleData } from "../types.js"
 
 export class SalesController {
   static async index(req, res) {
@@ -33,7 +34,7 @@ export class SalesController {
       }
 
       // Make sure sale data contains all required fields
-      const saleObject = saleData.check(saleData);
+      const saleObject = SaleData.check(saleData);
 
       // Generate ID and Handle for sale
       const saleId = uuidv4();
@@ -49,7 +50,7 @@ export class SalesController {
 
       res.send(sale);
     } catch (e) {
-      console.log(`POST`, e.message);
+      console.log(e.message);
       res.sendStatus(400);
     }
   }
