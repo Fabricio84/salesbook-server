@@ -22,5 +22,5 @@ export const SaleData = Record({
   itens: Array(SaleItem),
   priceTotal: Number,
   discounts: Number,
-  payments: Array(String)
+  payments: Array(Payment)
 });
