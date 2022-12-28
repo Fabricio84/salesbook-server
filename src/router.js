@@ -3,6 +3,10 @@ import { SalesController } from "./controllers/sales-controller.js"
 
 export const router = express.Router()
 
+router.get('/', (req, res) => {
+    res.send("Its working!")
+})
+
 router.get('/sales', SalesController.index)
 router.get('/sales/:id', SalesController.show)
 router.post('/sales', SalesController.create)
