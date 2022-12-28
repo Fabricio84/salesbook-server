@@ -4,10 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 
 export class SalesController {
   static async index(req, res) {
-    const { results: salesMetadata } = await SalesStore.list();
+    const { results: salesMetadata } = await Salestore.list();
 
     const sales = await Promise.all(
-      salesMetadata.map(async ({ key }) => (await SalesStore.get(key)).props)
+      salesMetadata.map(async ({ key }) => (await Salestore.get(key)).props)
     );
 
     return res.json(sales);
@@ -17,7 +17,7 @@ export class SalesController {
     const id = req.params.id;
 
     try {
-      const { props: sale } = await SalesStore.get(id);
+      const { props: sale } = await Salestore.get(id);
       res.send(sale);
     } catch (e) {
       console.log(`GET /${id}`, e.message);
@@ -84,14 +84,14 @@ export class SalesController {
     const newData = req.body || {};
 
     try {
-      const { props: oldsale } = await SalesStore.get(saleId);
+      const { props: oldsale } = await Salestore.get(saleId);
       const sale = {
         ...oldsale,
         ...newData,
       };
 
       // Save new sale object
-      await SalesStore.set(saleId, newData);
+      await Salestore.set(saleId, newData);
 
       res.send(sale);
     } catch (e) {
@@ -104,7 +104,7 @@ export class SalesController {
     const saleId = req.params.id;
 
     try {
-      await SalesStore.delete(saleId);
+      await Salestore.delete(saleId);
 
       res.send({
         id: saleId,
