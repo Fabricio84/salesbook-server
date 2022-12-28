@@ -12,6 +12,8 @@ export class SalesController {
   }
 
   static async show(req, res) {
+    const id = req.params.id;
+
     try {
       const { props: sale } = await SalesStore.get(id);
       res.send(sale);
