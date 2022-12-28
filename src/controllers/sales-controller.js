@@ -49,6 +49,7 @@ export class SalesController {
 
       res.send(sale);
     } catch (e) {
+      console.log(`POST`, e.message);
       res.sendStatus(400);
     }
   }
