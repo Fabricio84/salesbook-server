@@ -1,5 +1,11 @@
 import { Record, String, Number, Array } from "runtypes";
 
+export const UserData = Record({
+  email: String,
+  password: String,
+  role: String
+});
+
 // Type for new sale
 export const Product = Record({
     description: String,
@@ -12,14 +18,10 @@ export const Payment = Record({
     price: Number
 });
 
-export const SaleItem = Record({
-  productId: String
-});
-
 export const SaleData = Record({
   date: String,
   customerId: String,
-  itens: Array(SaleItem),
+  itens: Array(String),
   priceTotal: Number,
   discounts: Number,
   payments: Array(Payment)

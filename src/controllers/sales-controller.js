@@ -1,4 +1,4 @@
-import { Salestore, SaleItemstore, Paymentstore } from "../store.js"
+import { Salestore, Paymentstore } from "../store.js"
 import { SaleData } from "../types.js"
 import { v4 as uuidv4 } from "uuid";
 
@@ -40,12 +40,13 @@ export class SalesController {
       // Generate ID and Handle for sale
       const saleId = uuidv4();
 
-      const { date, customerId, priceTotal, discounts } = saleObject
+      const { date, customerId, itens, priceTotal, discounts, payments } = saleObject
 
       // Create full sale object
       const sale = {
         date,
         customerId,
+        itens,
         priceTotal,
         discounts,
         id: saleId,
@@ -54,20 +55,10 @@ export class SalesController {
       // Save sale object
       await Salestore.set(saleId, sale);
 
-      const { itens, payments } = saleObject
-
-      // Save sale-itens
-      itens.forEach(async ({ productId }) => {
-        const saleItemId = uuidv4();
-        const newData = { saleId, productId }
-
-        await SaleItemstore.set(saleItemId, newData);
-      });
-
       // Save payments
       payments.forEach(async ({ date, price }) => {
         const paymentId = uuidv4();
-        const newData = { paymentId, saleId, date, price }
+        const newData = { paymentId, date, price, handle: saleId }
 
         await Paymentstore.set(paymentId, newData);
       });
@@ -101,13 +92,22 @@ export class SalesController {
   }
 
   static async delete(req, res) {
-    const saleId = req.params.id;
+    const saleId = req.params.id
 
     try {
-      await Salestore.delete(saleId);
+      await Salestore.delete(saleId)
+
+      const payments = await Paymentstore.filter({ handle: saleId })
+      .map(({ props }) => (props))
+
+      const paymentIds = payments.map(async ({ id }) => {
+        await Paymentstore.delete(id)
+        return id
+      });
 
       res.send({
         id: saleId,
+        paymentIds
       });
     } catch (e) {
       console.log(e.message);
