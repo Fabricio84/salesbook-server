@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { Userstore } from "../store.js"
+import { Userstore, FindFirst } from "../store.js"
 import { v4 as uuidv4 } from "uuid";
 import { UserData } from "../types.js"
 
@@ -46,9 +46,7 @@ export class AuthController {
         const { email, password } = req.body;
 
         try {
-            const { results } = await Userstore.filter({ handle: email });
-
-            return res.send(results);
+            const user = await FindFirst('users', 'email', email)
 
             if (!user)
                 throw new Error('Email não existe na nossa base de dados!');
