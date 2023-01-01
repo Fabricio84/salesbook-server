@@ -7,7 +7,7 @@ export const UserData = Record({
 });
 
 // Type for new sale
-export const Product = Record({
+export const ProductData = Record({
     description: String,
     price: Number,
     amount: Number
